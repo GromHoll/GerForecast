@@ -10,6 +10,7 @@ public class MainScenario {
 
         calculateRealizationForecast(input, output);
         calculateExpenses(input, output);
+        calculateBankForecast(input, output);
 
         return output;
     }
@@ -66,6 +67,17 @@ public class MainScenario {
                                     + output.managementExpenses[i]
                                     + output.adsExpenses[i]
                                     + output.depreciationOfEquipment[i];
+        }
+
+    }
+
+    private void calculateBankForecast(InputValues input, OutputValues output) {
+        output.outstandingBalance[0] = input.getInitialEquipmentCost();
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.outstandingBalance[i] = output.outstandingBalance[i - 1] - input.getRepaymentOfCredit(i);
+        }
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.amountOfPayments[i] = output.outstandingBalance[i - 1]*input.getInterestOnLoan();
         }
 
     }
