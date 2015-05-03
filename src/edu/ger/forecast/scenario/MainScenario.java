@@ -12,6 +12,7 @@ public class MainScenario {
         calculateExpenses(input, output);
         calculateBankForecast(input, output);
         calculateCapitalForecast(input, output);
+        calculateProfitsAndLostForecast(input, output);
         calculateCashFlowForecast(input, output);
 
         return output;
@@ -107,7 +108,7 @@ public class MainScenario {
         }
     }
 
-    private void calculateCashFlowForecast(InputValues input, OutputValues output) {
+    private void calculateProfitsAndLostForecast(InputValues input, OutputValues output) {
         output.revenueFromSaleOfAssets[output.yearsNumber] = input.getInitialEquipmentCost() * input.getEquipmentSalesRatio();
         for (int i = 0; i < output.yearsNumber; i++) {
             output.totalIncome[i] = output.productRevenueForecast[i] + output.revenueFromSaleOfAssets[i];
@@ -130,5 +131,37 @@ public class MainScenario {
         }
         output.retainedProfit[output.yearsNumber] = output.netProfit[output.yearsNumber];
     }
+
+    private void calculateCashFlowForecast(InputValues input, OutputValues output) {
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.balanceFromInvestingActivities[i] = output.revenueFromSaleOfAssets[i] + (i == 0 ? -input.getInitialEquipmentCost() : 0);
+        }
+        for (int i = 0; i < output.yearsNumber; i++) {
+            output.balanceFromOperatingActivities[i] = output.productRevenueForecast[i]
+                                                     + output.productMaterialExpenses[i]
+                                                     + output.laborExpenses[i]
+                                                     + output.generalProductionExpenses[i]
+                                                     + output.managementExpenses[i]
+                                                     + output.adsExpenses[i]
+                                                     - output.taxOnProfits[i]
+                                                     + output.changesInWorkingCapital[i];
+        }
+        output.balanceFromOperatingActivities[output.yearsNumber] = output.changesInWorkingCapital[output.yearsNumber]
+                                                                  - output.taxOnProfits[output.yearsNumber];
+
+        output.balanceFromFinanceActivities[0] = input.getInitialEquipmentCost() + output.amountOfPayments[0];
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.balanceFromFinanceActivities[i] = - (input.getRepaymentOfCredit(i) + output.amountOfPayments[i]);
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.balanceFromAllActivities[i] = output.balanceFromInvestingActivities[i]
+                                               + output.balanceFromOperatingActivities[i]
+                                               + output.balanceFromFinanceActivities[i];
+        }
+        for (int i = 1; i <= output.yearsNumber; i++) {
+            output.cashBalance[i] = output.cashBalance[i - 1] + output.balanceFromAllActivities[i];
+        }
+    }
+
 
 }
