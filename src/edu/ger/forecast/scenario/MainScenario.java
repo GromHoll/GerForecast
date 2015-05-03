@@ -12,6 +12,7 @@ public class MainScenario {
         calculateExpenses(input, output);
         calculateBankForecast(input, output);
         calculateCapitalForecast(input, output);
+        calculateCashFlowForecast(input, output);
 
         return output;
     }
@@ -104,7 +105,30 @@ public class MainScenario {
         for (int i = 1; i <= input.getYearsNumber() + 1; i++) {
             output.changesInWorkingCapital[i] = output.workingCapitalRequirements[i] - output.workingCapitalRequirements[i - 1];
         }
+    }
 
+    private void calculateCashFlowForecast(InputValues input, OutputValues output) {
+        output.revenueFromSaleOfAssets[output.yearsNumber] = input.getInitialEquipmentCost() * input.getEquipmentSalesRatio();
+        for (int i = 0; i < output.yearsNumber; i++) {
+            output.totalIncome[i] = output.productRevenueForecast[i] + output.revenueFromSaleOfAssets[i];
+        }
+        output.totalIncome[output.yearsNumber] = output.revenueFromSaleOfAssets[output.yearsNumber];
+
+        for (int i = 0; i < output.yearsNumber; i++) {
+            output.profitBeforeTaxes[i] = output.totalIncome[i] + output.totalExpenses[i];
+        }
+        output.profitBeforeTaxes[output.yearsNumber] = output.totalIncome[output.yearsNumber];
+
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.taxOnProfits[i] = input.getIncomeTaxRate()*output.profitBeforeTaxes[i];
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.netProfit[i] = output.profitBeforeTaxes[i] - output.taxOnProfits[i];
+        }
+        for (int i = 0; i < output.yearsNumber; i++) {
+            output.retainedProfit[i] = output.netProfit[i] - output.amountOfPayments[i];
+        }
+        output.retainedProfit[output.yearsNumber] = output.netProfit[output.yearsNumber];
     }
 
 }
