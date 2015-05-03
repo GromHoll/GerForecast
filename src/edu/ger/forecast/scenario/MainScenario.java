@@ -11,6 +11,7 @@ public class MainScenario {
         calculateRealizationForecast(input, output);
         calculateExpenses(input, output);
         calculateBankForecast(input, output);
+        calculateCapitalForecast(input, output);
 
         return output;
     }
@@ -78,6 +79,30 @@ public class MainScenario {
         }
         for (int i = 1; i <= input.getYearsNumber(); i++) {
             output.amountOfPayments[i] = output.outstandingBalance[i - 1]*input.getInterestOnLoan();
+        }
+    }
+
+    private void calculateCapitalForecast(InputValues input, OutputValues output) {
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.accountsReceivable[i] = - output.productRevenueForecast[i]/input.getSalesTurnoverRatio();
+        }
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.stocks[i] = output.productMaterialExpenses[i]/input.getStocksTurnoverRatio();
+        }
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.payablesToSuppliers[i] = - output.productMaterialExpenses[i]/input.getSuppliesTurnoverRatio();
+        }
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.arrearsOfWages[i] = - output.laborExpenses[i]/input.getSalariesTurnoverRatio();
+        }
+        for (int i = 1; i <= input.getYearsNumber(); i++) {
+            output.workingCapitalRequirements[i] = output.accountsReceivable[i]
+                                                 + output.stocks[i]
+                                                 + output.payablesToSuppliers[i]
+                                                 + output.arrearsOfWages[i];
+        }
+        for (int i = 1; i <= input.getYearsNumber() + 1; i++) {
+            output.changesInWorkingCapital[i] = output.workingCapitalRequirements[i] - output.workingCapitalRequirements[i - 1];
         }
 
     }
