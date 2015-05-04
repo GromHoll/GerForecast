@@ -87,8 +87,15 @@ public class OutputValues {
     /** PS(i) - Итог Пассивовв */
     public double[] totalLiabilitiesPassive;
 
-
-
+    /* Основные финансовые показатели */
+    /** CR(i) - Текущая ликвидность */
+    public double[] currentRatio;
+    /** IC(i) - Покрытие процентов */
+    public double[] interestCoverage;
+    /** ROS(i) - Прибыль/выручка */
+    public double[] ros;
+    /** ROA(i) - Прибыль/активы */
+    public double[] roa;
 
     public OutputValues(InputValues input) {
         yearsNumber = input.getYearsNumber() + 1;
@@ -172,6 +179,16 @@ public class OutputValues {
         Arrays.fill(retainedProfitPassive, 0);
         Arrays.fill(bankLoan, 0);
         Arrays.fill(totalLiabilitiesPassive, 0);
+
+        currentRatio = new double[yearsNumber];
+        interestCoverage = new double[yearsNumber];
+        ros = new double[yearsNumber];
+        roa = new double[yearsNumber];
+
+        Arrays.fill(currentRatio, 0);
+        Arrays.fill(interestCoverage, 0);
+        Arrays.fill(ros, 0);
+        Arrays.fill(roa, 0);
 
     }
 

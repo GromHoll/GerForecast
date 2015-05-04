@@ -15,6 +15,7 @@ public class MainScenario {
         calculateProfitsAndLostForecast(input, output);
         calculateCashFlowForecast(input, output);
         calculateBalanceForecast(input, output);
+        calculateFinancialHighlights(input, output);
 
         return output;
     }
@@ -194,5 +195,20 @@ public class MainScenario {
         }
     }
 
+    private void calculateFinancialHighlights(InputValues input, OutputValues output) {
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.currentRatio[i] = (output.cashBalance[i] - output.accountsReceivable[i] - output.stocks[i])
+                                   / (output.payablesToSuppliers[i] + output.arrearsOfWages[i]);
+        }
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.interestCoverage[i] = output.netProfit[i]/output.amountOfPayments[i];
+        }
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.ros[i] = output.netProfit[i]/output.productRevenueForecast[i];
+        }
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.roa[i] = output.netProfit[i]/output.totalAssets[i];
+        }
+    }
 
 }
