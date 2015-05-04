@@ -14,6 +14,7 @@ public class MainScenario {
         calculateCapitalForecast(input, output);
         calculateProfitsAndLostForecast(input, output);
         calculateCashFlowForecast(input, output);
+        calculateBalanceForecast(input, output);
 
         return output;
     }
@@ -60,7 +61,7 @@ public class MainScenario {
         }
 
         for (int i = 1; i < output.yearsNumber; i++) {
-            output.depreciationOfEquipment[i] = - input.getInitialEquipmentCost()/input.getYearsNumber();
+            output.amortizationOfEquipment[i] = - input.getInitialEquipmentCost()/input.getYearsNumber();
         }
 
         for (int i = 1; i < output.yearsNumber; i++) {
@@ -69,7 +70,7 @@ public class MainScenario {
                                     + output.generalProductionExpenses[i]
                                     + output.managementExpenses[i]
                                     + output.adsExpenses[i]
-                                    + output.depreciationOfEquipment[i];
+                                    + output.amortizationOfEquipment[i];
         }
 
     }
@@ -160,6 +161,36 @@ public class MainScenario {
         }
         for (int i = 1; i <= output.yearsNumber; i++) {
             output.cashBalance[i] = output.cashBalance[i - 1] + output.balanceFromAllActivities[i];
+        }
+    }
+
+    private void calculateBalanceForecast(InputValues input, OutputValues output) {
+        for (int i = 1; i < output.yearsNumber; i++) {
+            output.depreciationOfEquipment[i] = output.amortizationOfEquipment[i] + output.depreciationOfEquipment[i - 1];
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            if (i != output.yearsNumber) {
+                output.totalAssets[i] = output.cashBalance[i] - output.accountsReceivable[i] - output.stocks[i] + input.getInitialEquipmentCost() + output.depreciationOfEquipment[i];
+            } else {
+                output.totalAssets[i] = output.cashBalance[i] + output.depreciationOfEquipment[i];
+            }
+        }
+        for (int i = 1; i <= output.yearsNumber; i++) {
+            output.retainedProfitPassive[i] = output.retainedProfitPassive[i - 1] + output.retainedProfit[i];
+        }
+        for (int i = 0; i < output.yearsNumber; i++) {
+            if (i == 0) {
+                output.bankLoan[i] = input.getInitialEquipmentCost();
+            } else {
+                output.bankLoan[i] = output.bankLoan[i - 1] - input.getRepaymentOfCredit(i);
+            }
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            if (i != output.yearsNumber) {
+                output.totalLiabilitiesPassive[i] = output.retainedProfitPassive[i] + output.bankLoan[i] + output.payablesToSuppliers[i] + output.arrearsOfWages[i];
+            } else {
+                output.totalLiabilitiesPassive[i] = output.retainedProfitPassive[i] + output.bankLoan[i];
+            }
         }
     }
 
