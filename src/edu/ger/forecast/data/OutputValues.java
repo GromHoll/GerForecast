@@ -97,6 +97,19 @@ public class OutputValues {
     /** ROA(i) - Прибыль/активы */
     public double[] roa;
 
+    /* Оценка инвестиционного проекта */
+    /** NCF(i) - ЧДП (операции и инвестиции) */
+    public double[] operationsAndInvestments;
+    /** TD(i) - Текущий чистый доход */
+    public double[] currentIncome;
+    /** KD(i) - Коэффициент дисконтирования */
+    public double[] discountCoefficient;
+    /** CCF(i) - Дисконтированный денежный поток */
+    public double[] discountedCashFlow;
+    /** NPV(i) - Текущий ЧДД */
+    public double[] currentOperationsAndInvestments;
+
+
     public OutputValues(InputValues input) {
         yearsNumber = input.getYearsNumber() + 1;
 
@@ -190,6 +203,16 @@ public class OutputValues {
         Arrays.fill(ros, 0);
         Arrays.fill(roa, 0);
 
-    }
+        operationsAndInvestments = new double[yearsNumber + 1];
+        currentIncome = new double[yearsNumber + 1];
+        discountCoefficient = new double[yearsNumber + 1];
+        discountedCashFlow = new double[yearsNumber + 1];
+        currentOperationsAndInvestments = new double[yearsNumber + 1];
 
+        Arrays.fill(operationsAndInvestments, 0);
+        Arrays.fill(currentIncome, 0);
+        Arrays.fill(discountCoefficient, 0);
+        Arrays.fill(discountedCashFlow, 0);
+        Arrays.fill(currentOperationsAndInvestments, 0);
+    }
 }

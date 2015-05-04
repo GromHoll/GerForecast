@@ -16,6 +16,7 @@ public class MainScenario {
         calculateCashFlowForecast(input, output);
         calculateBalanceForecast(input, output);
         calculateFinancialHighlights(input, output);
+        calculateEstimationOfInvestmentProjects(input, output);
 
         return output;
     }
@@ -211,4 +212,29 @@ public class MainScenario {
         }
     }
 
+    private void calculateEstimationOfInvestmentProjects(InputValues input, OutputValues output) {
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.operationsAndInvestments[i] = output.balanceFromInvestingActivities[i] + output.balanceFromOperatingActivities[i];
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            if (i == 0) {
+                output.currentIncome[i] = output.operationsAndInvestments[i];
+            } else {
+                output.currentIncome[i] = output.operationsAndInvestments[i] + output.currentIncome[i - 1];
+            }
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.discountCoefficient[i] = 1/Math.pow(1 + input.getDiscountRate(), i);
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            output.discountedCashFlow[i] = output.operationsAndInvestments[i]*output.discountCoefficient[i];
+        }
+        for (int i = 0; i <= output.yearsNumber; i++) {
+            if (i == 0) {
+                output.currentOperationsAndInvestments[i] = output.discountedCashFlow[i];
+            } else {
+                output.currentOperationsAndInvestments[i] = output.discountedCashFlow[i] + output.currentOperationsAndInvestments[i - 1];
+            }
+        }
+    }
 }
