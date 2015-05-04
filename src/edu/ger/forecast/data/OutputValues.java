@@ -109,7 +109,6 @@ public class OutputValues {
     /** NPV(i) - Текущий ЧДД */
     public double[] currentOperationsAndInvestments;
 
-
     public OutputValues(InputValues input) {
         yearsNumber = input.getYearsNumber() + 1;
 
@@ -214,5 +213,53 @@ public class OutputValues {
         Arrays.fill(discountCoefficient, 0);
         Arrays.fill(discountedCashFlow, 0);
         Arrays.fill(currentOperationsAndInvestments, 0);
+    }
+
+    @Override
+    public String toString() {
+        return  "yearsNumber = " + yearsNumber +
+                "\nproductCostForecast = " + Arrays.toString(productCostForecast) +
+                "\nproductRevenueForecast = " + Arrays.toString(productRevenueForecast) +
+                "\nproductMaterialExpenses = " + Arrays.toString(productMaterialExpenses) +
+                "\nlaborExpenses = " + Arrays.toString(laborExpenses) +
+                "\ngeneralProductionExpenses = " + Arrays.toString(generalProductionExpenses) +
+                "\nmanagementExpenses = " + Arrays.toString(managementExpenses) +
+                "\nadsExpenses = " + Arrays.toString(adsExpenses) +
+                "\namortizationOfEquipment = " + Arrays.toString(amortizationOfEquipment) +
+                "\ntotalExpenses = " + Arrays.toString(totalExpenses) +
+                "\noutstandingBalance = " + Arrays.toString(outstandingBalance) +
+                "\namountOfPayments = " + Arrays.toString(amountOfPayments) +
+                "\naccountsReceivable = " + Arrays.toString(accountsReceivable) +
+                "\nstocks = " + Arrays.toString(stocks) +
+                "\npayablesToSuppliers = " + Arrays.toString(payablesToSuppliers) +
+                "\narrearsOfWages = " + Arrays.toString(arrearsOfWages) +
+                "\nworkingCapitalRequirements = " + Arrays.toString(workingCapitalRequirements) +
+                "\nchangesInWorkingCapital = " + Arrays.toString(changesInWorkingCapital) +
+                "\nrevenueFromSaleOfAssets = " + Arrays.toString(revenueFromSaleOfAssets) +
+                "\ntotalIncome = " + Arrays.toString(totalIncome) +
+                "\nprofitBeforeTaxes = " + Arrays.toString(profitBeforeTaxes) +
+                "\ntaxOnProfits = " + Arrays.toString(taxOnProfits) +
+                "\nnetProfit = " + Arrays.toString(netProfit) +
+                "\nretainedProfit = " + Arrays.toString(retainedProfit) +
+                "\nbalanceFromInvestingActivities = " + Arrays.toString(balanceFromInvestingActivities) +
+                "\nbalanceFromOperatingActivities = " + Arrays.toString(balanceFromOperatingActivities) +
+                "\nbalanceFromFinanceActivities = " + Arrays.toString(balanceFromFinanceActivities) +
+                "\nbalanceFromAllActivities = " + Arrays.toString(balanceFromAllActivities) +
+                "\ncashBalance = " + Arrays.toString(cashBalance) +
+                "\ndepreciationOfEquipment = " + Arrays.toString(depreciationOfEquipment) +
+                "\ntotalAssets = " + Arrays.toString(totalAssets) +
+                "\nretainedProfitPassive = " + Arrays.toString(retainedProfitPassive) +
+                "\nbankLoan = " + Arrays.toString(bankLoan) +
+                "\ntotalLiabilitiesPassive = " + Arrays.toString(totalLiabilitiesPassive) +
+                "\ncurrentRatio = " + Arrays.toString(currentRatio) +
+                "\ninterestCoverage = " + Arrays.toString(interestCoverage) +
+                "\nros = " + Arrays.toString(ros) +
+                "\nroa = " + Arrays.toString(roa) +
+                "\noperationsAndInvestments = " + Arrays.toString(operationsAndInvestments) +
+                "\ncurrentIncome = " + Arrays.toString(currentIncome) +
+                "\ndiscountCoefficient = " + Arrays.toString(discountCoefficient) +
+                "\ndiscountedCashFlow = " + Arrays.toString(discountedCashFlow) +
+                "\ncurrentOperationsAndInvestments = " + Arrays.toString(currentOperationsAndInvestments)
+                ;
     }
 }
